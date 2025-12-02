@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Citizenship Eco-Band Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #071b2f 0, #020509 45%, #000000 100%);
+      color: #e8e8e8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    /* PAGE WRAPPER – keeps everything aligned */
+    .page {
+      max-width: 1050px;
+      margin: 0 auto 40px auto;
+      padding: 0 20px;
+    }
+
+    .centered-box {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 20px;
+      padding: 25px;
+      margin: 25px 0;
+      color: #e8e8e8;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100,255,180,0.25);
+    }
+
+    .data-number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #4ef5b8;
+    }
+
+    .status-green {
+      color: #4ef58b;
+      font-weight: bold;
+    }
+
+    .status-amber {
+      color: #ffd36b;
+      font-weight: bold;
+    }
+
+    .status-red {
+      color: #ff6f6f;
+      font-weight: bold;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+      margin: 25px 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 20px;
+      margin: 25px 0;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.55);
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid rgba(80,200,150,0.25);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 0 25px rgba(0,255,180,0.12);
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      color: #7affd2;
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: rgba(10, 60, 45, 0.9);
+      border: 1px solid rgba(120,255,200,0.4);
+    }
+
+    .pill-amber {
+      background: rgba(70, 55, 10, 0.9);
+      border-color: rgba(255,210,110,0.6);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(120,255,200,0.6);
+      background: rgba(0,0,0,0.6);
+      margin-left: 8px;
+    }
+
+    .trend-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff6f6f 0%, #ffd36b 40%, #4ef5b8 100%);
+      position: relative;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .trend-marker {
+      position: absolute;
+      top: -3px;
+      width: 4px;
+      height: 16px;
+      border-radius: 2px;
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255,255,255,0.8);
+      left: 78%;
+    }
+
+    .small-label {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    a {
+      color: #9eeedc;
+    }
+
+    /* PROFILE FLEX BOX – still “squared” */
+    .profile-box {
+      display: flex;
+      align-items: stretch;
+      gap: 25px;
+    }
+
+    .profile-photo {
+      width: 120px;
+      height: 160px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid #7affd2;
+      background: #111;
+      flex-shrink: 0;
+    }
+
+    .profile-main {
+      flex: 1;
+    }
+
+    .profile-summary {
+      flex: 1;
+      border-left: 1px solid rgba(120,255,200,0.3);
+      padding-left: 18px;
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+      background: #4ef58b;
+      box-shadow: 0 0 8px rgba(78,245,139,0.7);
+    }
+
+    .status-dot-amber {
+      background: #ffd36b;
+      box-shadow: 0 0 8px rgba(255,211,107,0.7);
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER + PERSONA SNAPSHOT -->
+  <div class="centered-box">
+    <h1 style="text-align:center; color:#7affd2; margin-bottom:0.3em;">
+      Citizenship Eco-Band Dashboard
+    </h1>
+    <p style="text-align:center; color:#9eeedc; margin:0 0 0.8em 0;">
+      Live biometric &amp; environmental compliance indicators monitored by the Planetary Balance Network.
+    </p>
+    <p style="text-align:center; font-size:0.9rem; opacity:0.9;">
+      Citizen: <strong>Lian Zhou</strong> &nbsp;|&nbsp;
+      Eco-Rank: <strong>Tier B – Stable</strong> &nbsp;|&nbsp;
+      Zone: <strong>South/East Eco-Zone, Sector 14</strong> &nbsp;|&nbsp;
+      Role: <strong>Data Steward – Global Ecological Oversight Division</strong>
+    </p>
+  </div>
+
+  <!-- PROFILE SECTION (same width, now with right-hand summary) -->
+  <div class="centered-box">
+    <div class="profile-box">
+      <!-- PROFILE PHOTO -->
+      <img src="lian-photo.jpg"
+           alt="Citizen ID Photo"
+           class="profile-photo">
+
+      <!-- PROFILE DATA -->
+      <div class="profile-main">
+        <h2 style="margin:0; color:#7affd2;">Citizen Profile</h2>
+        <p style="margin:6px 0; font-size:0.9rem;">
+          <strong>Name:</strong> Lian Zhou<br>
+          <strong>Age:</strong> 34<br>
+          <strong>Gender:</strong> Male<br>
+          <strong>Height:</strong> 5'11"<br>
+          <strong>Citizen ID:</strong> EE-14-2097-LZ<br>
+          <strong>Civil Status:</strong> Single<br>
+          <strong>Eco-Rank:</strong> Tier B – Stable<br>
+        </p>
+      </div>
+
+      <!-- RIGHT-HAND QUICK SUMMARY -->
+      <div class="profile-summary">
+        <div>
+          <span class="section-title" style="font-size:0.9rem; margin-bottom:4px;">Today's Snapshot</span>
+          <p style="margin:2px 0;">
+            <span class="status-dot"></span>
+            Ecological compliance: <strong>High</strong>
+          </p>
+          <p style="margin:2px 0;">
+            <span class="status-dot"></span>
+            Emotional variance: <strong>Low (12%)</strong>
+          </p>
+          <p style="margin:2px 0;">
+            <span class="status-dot"></span>
+            Social stability: <strong>Aligned (91%)</strong>
+          </p>
+        </div>
+
+        <div style="margin-top:10px;">
+          <span class="section-title" style="font-size:0.9rem; margin-bottom:4px;">Next Upgrades</span>
+          <p style="margin:2px 0;">
+            <span class="status-dot-amber"></span>
+            Housing pod: <strong>80%</strong> to next tier
+          </p>
+          <p style="margin:2px 0;">
+            <span class="status-dot-amber"></span>
+            Food variety: <strong>92%</strong> to next tier
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORE ECO / BIO METRICS -->
+  <div class="grid-3">
+    <div class="card">
+      <div class="section-title">Daily Carbon Footprint</div>
+      <div class="data-number">1.8 kg</div>
+      <p>Status: <span class="status-green">Optimal</span></p>
+      <p class="small-label">Trending: 12% lower than district average over last 30 days.</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Energy Consumption</div>
+      <div class="data-number">3.2 kWh</div>
+      <p>Status: <span class="status-green">Below District Avg.</span></p>
+      <p class="small-label">Apartment automation efficiency: <strong>94%</strong>.</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Water Usage</div>
+      <div class="data-number">42 L</div>
+      <p>Status: <span class="status-green">Controlled</span></p>
+      <p class="small-label">Shower time alerts: <strong>0</strong> warnings in last 7 days.</p>
+    </div>
+  </div>
+
+  <!-- BIO + EMOTIONAL + SOCIAL STABILITY -->
+  <div class="grid-3">
+    <div class="card">
+      <div class="section-title">Biometric Snapshot</div>
+      <div class="data-number">68 BPM</div>
+      <p>Heart Rate: <span class="status-green">Stable</span></p>
+      <p>Sleep Efficiency: <strong>93%</strong></p>
+      <p class="small-label">Night interruptions: <strong>1</strong> (within accepted range).</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Emotional Variance</div>
+      <div class="data-number">12%</div>
+      <p>Status: <span class="status-green">Low</span></p>
+      <p class="small-label">Reflection Garden visits this week: <strong>3</strong>.</p>
+      <div class="trend-bar">
+        <div class="trend-marker"></div>
+      </div>
+      <p class="small-label">Left = unstable / Right = harmonised.</p>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Social Stability Index</div>
+      <div class="data-number">91%</div>
+      <p>Status: <span class="status-green">Aligned</span></p>
+      <div class="pill-row">
+        <span class="pill">Voice tone: neutral</span>
+        <span class="pill">Conversation topics: compliant</span>
+        <span class="pill-amber pill">Public silence threshold: near limit</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOVEMENT + ZONE COMPLIANCE -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-title">Movement &amp; Mobility</div>
+      <p class="data-number">8,210 steps</p>
+      <p>AI Recommendation: Maintain pace.</p>
+      <p class="small-label">
+        Today’s routes:
+        <br>• Residential Capsule → Ecological Data Tower (glide capsule)
+        <br>• Ecological Data Tower → Reflection Garden → Residential Capsule
+      </p>
+      <p class="small-label">
+        Zone boundary alerts: <span class="status-green">None triggered</span>.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Zone &amp; Eco-Rank</div>
+      <p><strong>Eco-Rank:</strong> Tier B – Stable <span class="badge">Mid-Class Citizen</span></p>
+      <p><strong>Zone Compliance:</strong> <span class="status-green">High</span></p>
+      <p class="small-label">
+        • Access level: Public transit, Data Tower, Reflection Garden<br>
+        • Travel outside Eco-Zone: <span class="status-amber">Requires pre-approval</span><br>
+        • Rewilding Zone assignment: <span class="status-green">Not required</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ECO-POINTS TITLE (compact) -->
+  <div class="centered-box" style="text-align:center;">
+    <h2 style="margin:0; color:#7affd2;">Eco-Points & Upgrade Eligibility</h2>
+  </div>
+
+  <!-- ECO-POINTS GRIDS -->
+  <div class="grid-2">
+    <!-- CURRENT POINTS -->
+    <div class="card">
+      <div class="section-title">Current Eco-Points</div>
+      <div class="data-number">4,820 pts</div>
+      <p>Status: <span class="status-green">Healthy Progress</span></p>
+      <p class="small-label">Daily average gain: +62 pts</p>
+    </div>
+
+    <!-- NEXT HOUSING UPGRADE -->
+    <div class="card">
+      <div class="section-title">Next Housing Upgrade</div>
+      <p class="small-label">Requirement: 6,000 pts</p>
+      <div class="trend-bar" style="margin-top: 8px;">
+        <div class="trend-marker" style="left: 80%;"></div>
+      </div>
+      <p class="small-label" style="margin-top:5px;">
+        Progress: <strong>80%</strong><br>
+        Upgrade: Access to 46 m² living pod + improved air system
+      </p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- FOOD VARIETY UPGRADE -->
+    <div class="card">
+      <div class="section-title">Food Variety Tier</div>
+      <p class="small-label">Next tier unlocks at: 5,200 pts</p>
+      <div class="trend-bar" style="margin-top: 8px;">
+        <div class="trend-marker" style="left: 92%;"></div>
+      </div>
+      <p class="small-label" style="margin-top:5px;">
+        Progress: <strong>92%</strong><br>
+        Upgrade: +1 weekly natural produce allocation
+      </p>
+    </div>
+
+    <!-- SOCIAL TRUST TIER -->
+    <div class="card">
+      <div class="section-title">Social Trust Tier</div>
+      <p class="small-label">Next tier at: 7,500 pts</p>
+      <div class="trend-bar" style="margin-top: 8px;">
+        <div class="trend-marker" style="left: 64%;"></div>
+      </div>
+      <p class="small-label" style="margin-top:5px;">
+        Progress: <strong>64%</strong><br>
+        Upgrade: Priority access to public glide capsules
+      </p>
+    </div>
+  </div>
+
+  <!-- DEVICE STATUS + TAMPER + LOCK -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-title">Eco-Band Device Status</div>
+      <p class="data-number">ACTIVE</p>
+      <p>Lock Integrity: <span class="status-green">Intact</span></p>
+      <p>Tamper Alerts: <span class="status-green">None</span></p>
+      <p class="small-label">
+        • Lock type: Encrypted magnetic clasp – removal authorised only by Eco-Authority staff<br>
+        • Tamper circuit: <span class="status-green">Closed</span> (no cut or interruption detected)<br>
+        • Uplink: Secure NFC + encrypted channel to Central Citizen Registry
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Data Streams &amp; Privacy</div>
+      <p class="small-label">
+        Active streams: heart rate, sleep pattern, movement, speech tone, apartment energy use,
+        water flow, Reflection Garden presence.
+      </p>
+      <p class="small-label">
+        Data controller: <strong>Global Ecological Oversight Division</strong><br>
+        Storage: <strong>Planetary Balance Network</strong> / Citizen Node: <strong>EE-14-LZ-082</strong><br>
+        Human override: <span class="status-amber">Rare – logged and reviewed</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- AI NOTE / RECOMMENDATIONS -->
+  <div class="centered-box">
+    <h3 style="color:#7affd2; margin-top:0;">Daily AI Note</h3>
+    <p style="color:#d2fff2; margin-bottom:0.8em;">
+      Citizen Lian Zhou, your carbon output and biometric pattern remain within optimal thresholds. Mild social withdrawal detected over the last 72 hours.
+      Recommended actions:
+    </p>
+    <ul style="color:#c9ffef; margin-top:0.2em;">
+      <li>Extend today’s Reflection Garden visit by 10 minutes.</li>
+      <li>Join one approved micro-circle discussion at your workplace this week.</li>
+      <li>Maintain current sleep routine; no additional adjustment required.</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER SUMMARY -->
+  <div class="centered-box">
+    <p style="text-align:center; font-size:0.85rem;">
+      Planetary Balance Network Summary:
+      <br>
+      Ecological Compliance: <span class="status-green">High</span> &nbsp;|&nbsp;
+      Emotional Stability: <span class="status-green">Acceptable</span> &nbsp;|&nbsp;
+      Social Compliance: <span class="status-green">High</span> &nbsp;|&nbsp;
+      Risk of Intervention: <span class="status-amber">Low – monitored</span>
+    </p>
+  </div>
+
+</div> <!-- end .page -->
+
+</body>
+</html>
